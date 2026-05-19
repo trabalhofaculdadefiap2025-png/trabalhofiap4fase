@@ -30,7 +30,7 @@ O projeto está organizado da seguinte forma:
 desafio_tecnico_fase4/
 ├── data/
 │   └── yolov8n.pt               # Pesos base do modelo YOLO
-├── models/                      # Artefatos locais dos modelos (se houver)
+├── models/                      # Artefatos locais dos modelos 
 ├── scripts/
 │   ├── audio_analyzer.py        # Motor de análise de áudio (Vertex AI)
 │   └── video_analyzer.py        # Motor híbrido de vídeo (Roboflow API + Vertex AI)
