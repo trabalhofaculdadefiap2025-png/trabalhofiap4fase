@@ -33,7 +33,6 @@ desafio_tecnico_fase4/
 ├── models/                      # Artefatos locais dos modelos (se houver)
 ├── scripts/
 │   ├── audio_analyzer.py        # Motor de análise de áudio (Vertex AI)
-│   ├── document_processor.py    # Processador de documentos complementares
 │   └── video_analyzer.py        # Motor híbrido de vídeo (Roboflow API + Vertex AI)
 ├── gerador_audio.py             # Script utilitário para testes de áudio
 ├── main.py                      # Interface principal e rotas do Streamlit
