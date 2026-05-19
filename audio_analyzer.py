@@ -3,7 +3,6 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 from dotenv import load_dotenv
 
-# Carrega as variáveis do .env (como PROJECT_ID e LOCATION se estiverem lá)
 load_dotenv()
 
 
@@ -12,21 +11,16 @@ class AudioAnalyzer:
         """
         Inicializa a conexão com o Vertex AI usando o Service Account JSON.
         """
-        # 1. Configuração de Autenticação via Variável de Ambiente
-        # Isso faz com que o vertexai.init() encontre suas credenciais automaticamente
+
         self.creds_path = os.path.abspath('google_credentials.json')
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.creds_path
 
-        # 2. Configurações do Projeto (Ajuste se o seu ID for diferente)
-        # O project_id 'mercurial-shine-465517-q2' foi o que apareceu no seu JSON
         self.project_id = os.getenv("PROJECT_ID", "caminho do PROJECT_ID ")
         self.location = os.getenv("LOCATION", "localização")
 
         try:
-            # Inicializa o SDK do Vertex AI
             vertexai.init(project=self.project_id, location=self.location)
 
-            # Definimos o modelo (Gemini 1.5 Pro é excelente para áudio longo/complexo)
             self.model = GenerativeModel("gemini-1.5-pro")
             print(f"✅ Vertex AI inicializado com sucesso no projeto: {self.project_id}")
 
@@ -43,17 +37,13 @@ class AudioAnalyzer:
 
             print(f"🧠 [IA] Iniciando análise clínica do áudio: {os.path.basename(audio_path)}")
 
-            # 1. Preparação do dado binário (mesma lógica do seu projeto de transcrição)
             with open(audio_path, "rb") as f:
                 audio_bytes = f.read()
 
-            # Define o Mime Type (ajustado para aceitar mp3 ou wav)
             mime_type = "audio/mpeg" if audio_path.lower().endswith(".mp3") else "audio/wav"
 
-            # Cria a parte do conteúdo multimodal
             audio_part = Part.from_data(data=audio_bytes, mime_type=mime_type)
 
-            # 2. Definição do Prompt (Persona Médica/Social)
             prompt_sistema = """
             Você é um assistente de IA especializado em Saúde da Mulher e Design Comportamental.
             Sua missão é realizar um diagnóstico preliminar a partir deste áudio de triagem.
@@ -69,8 +59,6 @@ class AudioAnalyzer:
             - Evidências observadas no relato.
             """
 
-            # 3. Execução da Análise
-            # Passamos o prompt e o áudio no mesmo array
             resposta = self.model.generate_content([prompt_sistema, audio_part])
 
             return resposta.text
